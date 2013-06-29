@@ -1,0 +1,2 @@
+default[:pgina][:installer_url] = "http://downloads.sourceforge.net/project/pgina/3.1/pGinaSetup-3.1.8.0.exe?r=http%3A%2F%2Fpgina.org%2Fdownload.html&ts=1372522691&use_mirror=surfnet"
+default[:pgina][:application_string] = "pGina v3.1.8.0"
