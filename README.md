@@ -14,7 +14,13 @@ A cookbook for installing thse is available [in NetSrv's cookbooks repository](f
 
 Usage
 -----
-Just add pgina to your run list.
+Add pgina to your run list.
+
+Using With Terminal Services
+----------------------------
+Users must be added to the Remote Desktop Users group (or granted "Allow log on through Terminal Services").
+
+To make pGina the main provider for terminal services, the password provider has to be disabled.
 
 Attributes
 ----------
@@ -39,6 +45,19 @@ Attributes
     <td><tt>pGina v3.1.8.0</tt></td>
   </tr>
 </table>
+
+Adding to Local Groups
+----------------------
+
+node[:pgina][:ldap][:always_add_to_groups] is an array of local group names to always add the user to
+
+node[:pgina][:ldap][:add_to_groups_if] is a hash that adds the user to the local groups if a member of the ldap group
+
+    { "ldapgroup" : [ "localgroup1", "localgroup2" ] }
+
+node[:pgina][:ldap][:add_to_groups_not_if] is a hash that adds the user to the local groups if is not a member of the ldap group
+
+    { "ldapgroup" : [ "localgroup1", "localgroup2" ] }
 
 License
 -------
