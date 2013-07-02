@@ -43,6 +43,7 @@ windows_registry pGina3 do
     "TileImage" => tile_image
   )
   type :string
+  action :create
 end
 
 # Disabling the password provider allows pGina to control RDP logons by default
@@ -60,6 +61,7 @@ windows_registry ldap_plugin do
     'LdapTimeout' => node[:pgina][:ldap][:timeout]
   )
   type :dword
+  action :create
 end
 
 windows_registry ldap_plugin do
@@ -74,6 +76,7 @@ windows_registry ldap_plugin do
     'SearchFilter'      => node[:pgina][:ldap][:search_filter],
   )
   type :string
+  action :create
 end
 
 windows_registry ldap_plugin do
@@ -82,6 +85,7 @@ windows_registry ldap_plugin do
     'LdapHost'       => node[:pgina][:ldap][:hosts]
   )
   type :multi_string
+  action :create
 end
 
 # The plugin state is a binary flag, this says all or nothing
@@ -93,6 +97,7 @@ windows_registry pGina3 do
     "12FA152D-A2E3-4C8D-9535-5DCD49DFCB6D" => 10                       # Enable local machine for auth and gateway
   )
   type :dword
+  action :create
 end
 
 
@@ -105,6 +110,7 @@ windows_registry ldap_plugin do
     "AuthzRequireAuth" => node[:pgina][:ldap][:require_server] ? "True" : "False"
   )
   type :string
+  action :create
 end
 
 authz_groups = node[:pgina][:ldap][:require_groups]
@@ -112,6 +118,7 @@ authz_rules = ldap_authz_rules( authz_groups )
 windows_registry ldap_plugin do 
   values "GroupAuthzRules" => authz_rules
   type :multi_string
+  action :create
 end
 
 # Gateway
@@ -123,6 +130,7 @@ rules = ldap_gateway_group_rules(always_groups, add_groups_if, add_groups_if_not
 windows_registry ldap_plugin do 
   values "GroupGatewayRules" => rules
   type :multi_string
+  action :create
 end
 
 # -------
@@ -135,4 +143,5 @@ windows_registry pGina3 do
   )
   type :multi_string
   only_if { node[:pgina][:ldap][:enabled] }
+  action :create
 end
