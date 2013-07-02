@@ -43,6 +43,7 @@ windows_registry pGina3 do
     "TileImage" => tile_image
   )
   type :string
+  action :create
 end
 
 # Disabling the password provider allows pGina to control RDP logons by default
@@ -60,20 +61,36 @@ windows_registry ldap_plugin do
     'LdapTimeout' => node[:pgina][:ldap][:timeout]
   )
   type :dword
+  action :create
 end
+
+# Generate encryption key
+# Search password
+cookbook_file File.join(Chef::Config[:file_cache_path],"dpapicmd.exe") do
+  source "dpapicmd.exe"
+end
+
+credentials = Chef::EncryptedDataBagItem.load("production","passwords")
+
+key = Mixlib::ShellOut.new("#{Chef::Config[:file_cache_path]}/dpapicmd.exe /utf8 #{credentials['ldap_search']}")
+key.run_command
 
 windows_registry ldap_plugin do
   values(
+    'AllowEmptyPasswords' => "False",
+    'RequireCert' => "False",
+    'ServerCertFile' => "",
     'DnPattern'   => node[:pgina][:ldap][:user_dn_pattern],
     'UseSsl'      => node[:pgina][:ldap][:ssl_enabled],
     'SearchDN'    => node[:pgina][:ldap][:search_dn],
-    'SearchPW'    => node[:pgina][:ldap][:search_password],
+    'SearchPW'    => key.stdout,
     'GroupDnPattern'    => node[:pgina][:ldap][:group_dn_pattern],
     'GroupMemberAttrib' => node[:pgina][:ldap][:group_member_attribute],
     'DoSearch'          => node[:pgina][:ldap][:search_enabled],
     'SearchFilter'      => node[:pgina][:ldap][:search_filter],
   )
   type :string
+  action :create
 end
 
 windows_registry ldap_plugin do
@@ -82,6 +99,7 @@ windows_registry ldap_plugin do
     'LdapHost'       => node[:pgina][:ldap][:hosts]
   )
   type :multi_string
+  action :create
 end
 
 # The plugin state is a binary flag, this says all or nothing
@@ -93,6 +111,7 @@ windows_registry pGina3 do
     "12FA152D-A2E3-4C8D-9535-5DCD49DFCB6D" => 10                       # Enable local machine for auth and gateway
   )
   type :dword
+  action :create
 end
 
 
@@ -105,6 +124,7 @@ windows_registry ldap_plugin do
     "AuthzRequireAuth" => node[:pgina][:ldap][:require_server] ? "True" : "False"
   )
   type :string
+  action :create
 end
 
 authz_groups = node[:pgina][:ldap][:require_groups]
@@ -112,6 +132,7 @@ authz_rules = ldap_authz_rules( authz_groups )
 windows_registry ldap_plugin do 
   values "GroupAuthzRules" => authz_rules
   type :multi_string
+  action :create
 end
 
 # Gateway
@@ -123,6 +144,7 @@ rules = ldap_gateway_group_rules(always_groups, add_groups_if, add_groups_if_not
 windows_registry ldap_plugin do 
   values "GroupGatewayRules" => rules
   type :multi_string
+  action :create
 end
 
 # -------
@@ -135,4 +157,5 @@ windows_registry pGina3 do
   )
   type :multi_string
   only_if { node[:pgina][:ldap][:enabled] }
+  action :create
 end
