@@ -22,6 +22,8 @@
 windows_package node[:pgina][:application_string] do
   source node[:pgina][:installer_url]
   action :install
+  installer_type :custom
+  options "/silent"
 end
 
 pGina3 ="HKLM\\SOFTWARE\\pGina3"
@@ -70,6 +72,7 @@ cookbook_file File.join(Chef::Config[:file_cache_path],"dpapicmd.exe") do
   source "dpapicmd.exe"
 end
 
+# TODO Impl specific!
 credentials = Chef::EncryptedDataBagItem.load("production","passwords")
 
 key = Mixlib::ShellOut.new("#{Chef::Config[:file_cache_path]}/dpapicmd.exe /utf8 #{credentials['ldap_search']}")
