@@ -48,11 +48,16 @@ windows_registry pGina3 do
   action :create
 end
 
+if node[:pgina][:disable_default_provider]
+  provider_filters = [ "{6f45dc1e-5384-457a-bc13-2cd81b0d28ed}\t15" ]
+else
+  provider_filters = nil
+end
+
 # Disabling the password provider allows pGina to control RDP logons by default
 windows_registry pGina3 do
-  values "CredentialProviderFilters" => [ "{6f45dc1e-5384-457a-bc13-2cd81b0d28ed}\t15" ]
+  values "CredentialProviderFilters" => provider_filters
   type :multi_string
-  only_if { node[:pgina][:disable_default_provider] }
 end
 
 # LDAP Plugins
