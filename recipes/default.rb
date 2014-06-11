@@ -82,6 +82,7 @@ windows_registry ldap_plugin do
     'LdapHost'       => node[:pgina][:ldap][:hosts]
   )
   type :multi_string
+  action :create
 end
 
 # The plugin state is a binary flag, this says all or nothing
