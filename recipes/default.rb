@@ -32,7 +32,7 @@ ldap_plugin ="#{pGina3}\\Plugins\\0f52390b-c781-43ae-bd62-553c77fa4cf7"
 
 # The tile_image attrib is relative to the cache path
 if node[:pgina][:tile_image]
-  tile_image = File.join(Chef::Config[:file_cache_path],node[:pgina][:tile_image])
+  tile_image = node[:pgina][:tile_image])
 else
   tile_image = ""
 end
