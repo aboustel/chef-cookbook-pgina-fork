@@ -70,7 +70,6 @@ windows_registry ldap_plugin do
     'DnPattern'   => node[:pgina][:ldap][:user_dn_pattern],
     'UseSsl'      => node[:pgina][:ldap][:ssl_enabled],
     'SearchDN'    => node[:pgina][:ldap][:search_dn],
-    'SearchPW'    => node[:pgina][:ldap][:search_password],
     'GroupDnPattern'    => node[:pgina][:ldap][:group_dn_pattern],
     'GroupMemberAttrib' => node[:pgina][:ldap][:group_member_attribute],
     'DoSearch'          => node[:pgina][:ldap][:search_enabled],
@@ -78,6 +77,14 @@ windows_registry ldap_plugin do
   )
   type :string
   action :create
+end
+
+windows_registry ldap_plugin do
+  values(
+    'SearchPW'    => node[:pgina][:ldap][:search_password],
+  )
+  type :string
+  action :delete
 end
 
 windows_registry ldap_plugin do
