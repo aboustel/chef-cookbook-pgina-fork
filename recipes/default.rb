@@ -84,7 +84,7 @@ windows_registry ldap_plugin do
     'SearchPW'    => node[:pgina][:ldap][:search_password],
   )
   type :string
-  action :delete
+  action :remove
 end
 
 windows_registry ldap_plugin do
