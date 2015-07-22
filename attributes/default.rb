@@ -1,5 +1,5 @@
-default[:pgina][:installer_url]      = "http://downloads.sourceforge.net/project/pgina/3.1/pGinaSetup-3.1.8.0.exe?r=http%3A%2F%2Fpgina.org%2Fdownload.html&ts=1372522691&use_mirror=surfnet"
-default[:pgina][:application_string] = "pGina v3.1.8.0"
+default[:pgina][:installer_url]      = "https://github.com/MutonUfoAI/pgina/releases/download/3.2.4.1/pGinaSetup-3.2.4.1.exe"
+default[:pgina][:application_string] = "pGina v3.2.4.1"
 default[:pgina][:motd]               = "pGina Version: %v"
 default[:pgina][:disable_default_provider]      = false
 default[:pgina][:tile_image]         = ""
@@ -11,10 +11,12 @@ default[:pgina][:ldap][:hosts]                  = [ "ldap.example.com" ]
 default[:pgina][:ldap][:port]                   = "389"
 default[:pgina][:ldap][:timeout]                = "10"
 default[:pgina][:ldap][:ssl_enabled]            = "False"
-default[:pgina][:ldap][:group_dn_pattern]       = "cn=%g,ou=Group,dc=example,dc=com"
-default[:pgina][:ldap][:group_member_attribute] = "memberUid"
+default[:pgina][:ldap][:tls_enabled]            = "False"
+default[:pgina][:ldap][:require_cert]           = "False"
+default[:pgina][:ldap][:server_cert_file]       = ""
 default[:pgina][:ldap][:user_dn_pattern]        = "uid=%u,dc=example,dc=com"
 default[:pgina][:ldap][:search_enabled]         = "False"
+default[:pgina][:ldap][:bind_with_user_credentials] = "True"
 default[:pgina][:ldap][:search_dn]              = ""
 default[:pgina][:ldap][:search_filter]          = ""
 default[:pgina][:ldap][:search_contexts]        = [ ]

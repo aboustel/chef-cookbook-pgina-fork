@@ -69,23 +69,27 @@ windows_registry ldap_plugin do
   values(
     'DnPattern'   => node[:pgina][:ldap][:user_dn_pattern],
     'UseSsl'      => node[:pgina][:ldap][:ssl_enabled],
+    'UseTls'      => node[:pgina][:ldap][:tls_enabled],
+    'RequireCert'      => node[:pgina][:ldap][:require_cert],
+    'ServerCertFile'      => node[:pgina][:ldap][:require_cert],
+    'UseAuthBindForAuthzAndGateway' => node[:pgina][:ldap][:bind_with_user_credentials],
     'SearchDN'    => node[:pgina][:ldap][:search_dn],
-    'GroupDnPattern'    => node[:pgina][:ldap][:group_dn_pattern],
-    'GroupMemberAttrib' => node[:pgina][:ldap][:group_member_attribute],
     'DoSearch'          => node[:pgina][:ldap][:search_enabled],
-    'SearchFilter'      => node[:pgina][:ldap][:search_filter],
+    'SearchFilter'      => node[:pgina][:ldap][:search_filter]
   )
   type :string
   action :create
 end
 
-windows_registry ldap_plugin do
-  values(
-    'SearchPW'    => node[:pgina][:ldap][:search_password],
-  )
-  type :string
-  action :remove
-end
+# registry_key ldap_plugin do
+#   values [
+#     {
+#       :name => 'SearchPW',
+#       :type => :string
+#     }
+#   ]
+#   action :delete
+# end
 
 windows_registry ldap_plugin do
   values(
@@ -97,12 +101,12 @@ windows_registry ldap_plugin do
 end
 
 # The plugin state is a binary flag, this says all or nothing
-ldap_plugin_state = node[:pgina][:ldap][:enabled] ? 14 : 0
+ldap_plugin_state = node[:pgina][:ldap][:enabled] ? 46 : 0
 
 windows_registry pGina3 do
   values(
     "0f52390b-c781-43ae-bd62-553c77fa4cf7" => ldap_plugin_state,
-    "12FA152D-A2E3-4C8D-9535-5DCD49DFCB6D" => 10                       # Enable local machine for auth and gateway
+    "12FA152D-A2E3-4C8D-9535-5DCD49DFCB6D" => 8                       # Enable local machine for gateway
   )
   type :dword
   action :create
@@ -147,7 +151,7 @@ end
 windows_registry pGina3 do
   values(
     "IPluginAuthenticationGateway_Order" => [ "0f52390b-c781-43ae-bd62-553c77fa4cf7","12fa152d-a2e3-4c8d-9535-5dcd49dfcb6d" ],
-    "IPluginAuthentication_Order"        => [ "0f52390b-c781-43ae-bd62-553c77fa4cf7","12fa152d-a2e3-4c8d-9535-5dcd49dfcb6d" ]
+    "IPluginAuthentication_Order"        => [ "0f52390b-c781-43ae-bd62-553c77fa4cf7"]
   )
   type :multi_string
   only_if { node[:pgina][:ldap][:enabled] }

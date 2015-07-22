@@ -1,6 +1,6 @@
 pgina
 =====
-This Chef cookbook install pGina.
+This Chef cookbook installs pGina fork.
 
 pGina is a pluggable Open Source GINA and CredentialProvider replacement. This allows for alternate methods of interactive user authentication
 and access management on machines running the Windows operating system. In short, allow your windows users to login using the backend of your choice.
@@ -42,7 +42,7 @@ Attributes
     <td><tt>['pgina']['application_string']</tt></td>
     <td>String</td>
     <td>The string that appears in the list of installed programs</td>
-    <td><tt>pGina v3.1.8.0</tt></td>
+    <td><tt>pGina v3.2.4.1</tt></td>
   </tr>
 </table>
 
