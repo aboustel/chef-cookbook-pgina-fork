@@ -36,7 +36,7 @@ Attributes
     <td><tt>['pgina']['installer_url']</tt></td>
     <td>String</td>
     <td>The URL to fetch the installer from</td>
-    <td><tt>http://downloads.sourceforge.net/project/pgina/3.1/pGinaSetup-3.1.8.0.exe?r=http%3A%2F%2Fpgina.org%2Fdownload.html&ts=1372522691&use_mirror=surfnet</tt></td>
+    <td><tt>https://github.com/MutonUfoAI/pgina/releases/download/3.2.4.1/pGinaSetup-3.2.4.1.exe</tt></td>
   </tr>
   <tr>
     <td><tt>['pgina']['application_string']</tt></td>

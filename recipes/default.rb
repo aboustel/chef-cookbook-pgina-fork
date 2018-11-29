@@ -138,6 +138,7 @@ registry_key ldap_plugin do
     }
   ]
   action :create
+  recursive true
 end
 
 # The plugin state is a binary flag, this says all or nothing
